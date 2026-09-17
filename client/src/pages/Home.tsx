@@ -1,11 +1,24 @@
 import { FormEvent, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronDown, Circle, Instagram, Linkedin, Menu, MessageCircle, MoveRight, Play, Plus, Send, Sparkles } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, CheckCircle2, ChevronDown, Circle, Info, Instagram, Linkedin, Menu, MessageCircle, MoveRight, Play, Send, Sparkles, Type } from "lucide-react";
 
 const softImage = "/manus-storage/smsknits-soft-structure_0db83cdc.jpg";
 const atelierImage = "/manus-storage/smsknits-atelier-motion_20f8fc25.jpg";
 
 function Mark() {
   return <span className="brand-mark" aria-hidden="true">S</span>;
+}
+
+function FontSelector({ fontTheme, setFontTheme }: { fontTheme: "fraunces" | "poppins" | "anthropic"; setFontTheme: (theme: "fraunces" | "poppins" | "anthropic") => void }) {
+  return (
+    <div className="font-selector" aria-label="Choose typography pairing">
+      <span className="font-selector-label"><Type size={13} /> Type</span>
+      <div className="font-selector-options" role="group" aria-label="Font pairing options">
+        <button type="button" className={fontTheme === "fraunces" ? "active" : ""} onClick={() => setFontTheme("fraunces")} aria-pressed={fontTheme === "fraunces"}>Editorial</button>
+        <button type="button" className={fontTheme === "poppins" ? "active" : ""} onClick={() => setFontTheme("poppins")} aria-pressed={fontTheme === "poppins"}>Poppins</button>
+        <button type="button" className={fontTheme === "anthropic" ? "active" : ""} onClick={() => setFontTheme("anthropic")} aria-pressed={fontTheme === "anthropic"}>Anthropic</button>
+      </div>
+    </div>
+  );
 }
 
 function MotionFrame({ variant = "fabric", label = "MOTION STUDY / 01" }: { variant?: "fabric" | "machine" | "atelier"; label?: string }) {
@@ -28,6 +41,7 @@ function SectionLabel({ children, index }: { children: string; index: string }) 
 
 function EnquiryForm() {
   const [sent, setSent] = useState(false);
+  const [step, setStep] = useState(1);
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setSent(true);
@@ -47,39 +61,49 @@ function EnquiryForm() {
 
   return (
     <form className="enquiry-form" onSubmit={submit}>
-      <div className="form-row two-up">
-        <label>Full name<input required name="name" placeholder="Your name" /></label>
-        <label>Work email<input required type="email" name="email" placeholder="you@brand.com" /></label>
-      </div>
-      <div className="form-row two-up">
-        <label>Company / brand<input required name="company" placeholder="Brand or company name" /></label>
-        <label>Country / market<input name="market" placeholder="Where are you based?" /></label>
-      </div>
-      <div className="form-row two-up">
-        <label>Project type<select required name="project"><option value="">Select one</option><option>Full garment production</option><option>Development & sampling</option><option>Knitting production</option><option>Finishing & quality</option></select><ChevronDown size={15} /></label>
-        <label>Estimated quantity<select name="quantity"><option value="">Select range</option><option>Under 100 units</option><option>100–500 units</option><option>500–2,000 units</option><option>2,000+ units</option></select><ChevronDown size={15} /></label>
-      </div>
-      <div className="form-row two-up">
-        <label>Target delivery<select name="timeline"><option value="">Select timing</option><option>As soon as possible</option><option>Within 8 weeks</option><option>Within 3 months</option><option>Exploring / no date yet</option></select><ChevronDown size={15} /></label>
-        <label>Preferred material<input name="material" placeholder="e.g. organic cotton, wool blend" /></label>
-      </div>
-      <label>Tell us about the project<textarea required name="message" rows={4} placeholder="What are you making, and where are you in the process?" /></label>
-      <div className="form-bottom"><p>By enquiring, you’re opening a conversation — not committing to production.</p><button className="submit-button" type="submit">Send enquiry <Send size={14} /></button></div>
+      <div className="form-progress"><div className="progress-copy"><span>PROJECT BRIEF</span><strong>Step {step} of 2</strong></div><div className="progress-track"><span style={{ width: `${step === 1 ? "50%" : "100%" }` }} /></div></div>
+      {step === 1 ? <>
+        <div className="form-intro"><div><p className="form-kicker">01 / YOUR DETAILS</p><h3>Tell us who’s<br /><em>behind the idea.</em></h3></div><span className="form-step-icon"><Circle size={20} /></span></div>
+        <div className="form-row two-up">
+          <label>Full name<input required name="name" placeholder="Your name" /></label>
+          <label>Work email<input required type="email" name="email" placeholder="you@brand.com" /></label>
+        </div>
+        <div className="form-row two-up">
+          <label>Company / brand<input required name="company" placeholder="Brand or company name" /></label>
+          <label>Country / market<input name="market" placeholder="Where are you based?" /></label>
+        </div>
+        <div className="form-helper"><Info size={14} /><span>We work with independent labels, growing teams and established brands.</span></div>
+        <button className="form-next" type="button" onClick={() => setStep(2)}>Continue to project details <ArrowRight size={15} /></button>
+      </> : <>
+        <div className="form-intro"><div><p className="form-kicker">02 / THE PROJECT</p><h3>Give us the<br /><em>shape of it.</em></h3></div><span className="form-step-icon"><CheckCircle2 size={20} /></span></div>
+        <div className="form-row two-up">
+          <label>Project type<select required name="project"><option value="">Select one</option><option>Full garment production</option><option>Development & sampling</option><option>Knitting production</option><option>Finishing & quality</option></select><ChevronDown size={15} /></label>
+          <label>Estimated quantity<select name="quantity"><option value="">Select range</option><option>Under 100 units</option><option>100–500 units</option><option>500–2,000 units</option><option>2,000+ units</option></select><ChevronDown size={15} /></label>
+        </div>
+        <div className="form-row two-up">
+          <label>Target delivery<select name="timeline"><option value="">Select timing</option><option>As soon as possible</option><option>Within 8 weeks</option><option>Within 3 months</option><option>Exploring / no date yet</option></select><ChevronDown size={15} /></label>
+          <label>Preferred material<input name="material" placeholder="e.g. organic cotton, wool blend" /></label>
+        </div>
+        <label>Tell us about the project<textarea required name="message" rows={4} placeholder="What are you making, and where are you in the process?" /></label>
+        <div className="form-bottom"><button className="form-back" type="button" onClick={() => setStep(1)}><ArrowRight size={14} /> Back</button><p>By enquiring, you’re opening a conversation — not committing to production.</p><button className="submit-button" type="submit">Send enquiry <Send size={14} /></button></div>
+      </>}
     </form>
   );
 }
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [fontTheme, setFontTheme] = useState<"fraunces" | "poppins" | "anthropic">("fraunces");
   return (
-    <main className="soft-site">
+    <main className={`soft-site font-${fontTheme}`}>
       <header className={`site-nav ${menuOpen ? "nav-open" : ""}`}>
         <a className="site-brand" href="#top"><Mark /><span>sms<span>knits</span></span></a>
         <button className="mobile-menu" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu"><Menu size={19} /></button>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#studio">Studio</a><a href="#capabilities">Capabilities</a><a href="#process">Process</a><a href="#enquiry">Enquire</a></nav>
+        <FontSelector fontTheme={fontTheme} setFontTheme={setFontTheme} />
         <a className="nav-cta" href="#enquiry">Start a project <ArrowUpRight size={14} /></a>
       </header>
-      {menuOpen && <nav className="mobile-nav"><a href="#studio" onClick={() => setMenuOpen(false)}>Studio</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a></nav>}
+      {menuOpen && <nav className="mobile-nav"><a href="#studio" onClick={() => setMenuOpen(false)}>Studio</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a><div className="mobile-font-selector"><FontSelector fontTheme={fontTheme} setFontTheme={setFontTheme} /></div></nav>}
 
       <section className="hero" id="top">
         <div className="hero-copy">
