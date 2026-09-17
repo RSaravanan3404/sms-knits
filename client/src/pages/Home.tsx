@@ -49,8 +49,7 @@ function Mark() {
 function ThemeToggle({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: (value: boolean) => void }) {
   return (
     <button type="button" className="theme-toggle" onClick={() => setDarkMode(!darkMode)} aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={darkMode}>
-      <span className="theme-toggle-icon">{darkMode ? <Sun size={13} /> : <Moon size={13} />}</span>
-      <span>{darkMode ? "Light" : "Dark"}</span>
+      <span className="theme-toggle-icon">{darkMode ? <Sun size={15} /> : <Moon size={15} />}</span>
     </button>
   );
 }
@@ -154,8 +153,8 @@ export default function Home() {
         <a className="site-brand" href="#top"><Mark /><span>sms<span>knits</span></span></a>
         <button className="mobile-menu" type="button" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={menuOpen}><Menu size={19} /></button>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#about">About</a><a href="#capabilities">Capabilities</a><a href="#process">Process</a><a href="#enquiry">Enquire</a></nav>
-        <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
         <a className="nav-cta" href="#enquiry">Start a project <ArrowUpRight size={14} /></a>
+        <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
       </header>
       {menuOpen && <nav className="mobile-nav"><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a><div className="mobile-theme-toggle"><ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} /></div></nav>}
 
