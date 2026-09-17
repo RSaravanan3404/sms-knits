@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, CheckCircle2, ChevronDown, Circle, Info, Instagram, Linkedin, Menu, MessageCircle, Play, Plus, Send, Sparkles, Type } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, CheckCircle2, ChevronDown, Circle, Info, Instagram, Linkedin, Menu, MessageCircle, Moon, Play, Plus, Send, Sparkles, Sun } from "lucide-react";
 
 const softImage = "/manus-storage/smsknits-soft-structure_0db83cdc.jpg";
 const atelierImage = "/manus-storage/smsknits-atelier-motion_20f8fc25.jpg";
@@ -46,16 +46,12 @@ function Mark() {
   return <span className="brand-mark" aria-hidden="true">S</span>;
 }
 
-function FontSelector({ fontTheme, setFontTheme }: { fontTheme: "fraunces" | "poppins" | "anthropic"; setFontTheme: (theme: "fraunces" | "poppins" | "anthropic") => void }) {
+function ThemeToggle({ darkMode, setDarkMode }: { darkMode: boolean; setDarkMode: (value: boolean) => void }) {
   return (
-    <div className="font-selector" aria-label="Choose typography pairing">
-      <span className="font-selector-label"><Type size={13} /> Type</span>
-      <div className="font-selector-options" role="group" aria-label="Font pairing options">
-        <button type="button" className={fontTheme === "fraunces" ? "active" : ""} onClick={() => setFontTheme("fraunces")} aria-pressed={fontTheme === "fraunces"}>Editorial</button>
-        <button type="button" className={fontTheme === "poppins" ? "active" : ""} onClick={() => setFontTheme("poppins")} aria-pressed={fontTheme === "poppins"}>Poppins</button>
-        <button type="button" className={fontTheme === "anthropic" ? "active" : ""} onClick={() => setFontTheme("anthropic")} aria-pressed={fontTheme === "anthropic"}>Anthropic</button>
-      </div>
-    </div>
+    <button type="button" className="theme-toggle" onClick={() => setDarkMode(!darkMode)} aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={darkMode}>
+      <span className="theme-toggle-icon">{darkMode ? <Sun size={13} /> : <Moon size={13} />}</span>
+      <span>{darkMode ? "Light" : "Dark"}</span>
+    </button>
   );
 }
 
@@ -149,19 +145,19 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openWhy, setOpenWhy] = useState<string | null>(whyUsItems[0].question);
   const [openFaq, setOpenFaq] = useState<string | null>(null);
-  const [fontTheme, setFontTheme] = useState<"fraunces" | "poppins" | "anthropic">("fraunces");
+  const [darkMode, setDarkMode] = useState(false);
   const toggleMenu = () => setMenuOpen((open) => !open);
 
   return (
-    <main className={`soft-site font-${fontTheme}`}>
+    <main className={`soft-site anthropic-theme ${darkMode ? "dark-mode" : ""}`}>
       <header className={`site-nav ${menuOpen ? "nav-open" : ""}`}>
         <a className="site-brand" href="#top"><Mark /><span>sms<span>knits</span></span></a>
         <button className="mobile-menu" type="button" onClick={toggleMenu} aria-label="Toggle menu" aria-expanded={menuOpen}><Menu size={19} /></button>
         <nav className="desktop-nav" aria-label="Main navigation"><a href="#about">About</a><a href="#capabilities">Capabilities</a><a href="#process">Process</a><a href="#enquiry">Enquire</a></nav>
-        <FontSelector fontTheme={fontTheme} setFontTheme={setFontTheme} />
+        <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
         <a className="nav-cta" href="#enquiry">Start a project <ArrowUpRight size={14} /></a>
       </header>
-      {menuOpen && <nav className="mobile-nav"><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a><div className="mobile-font-selector"><FontSelector fontTheme={fontTheme} setFontTheme={setFontTheme} /></div></nav>}
+      {menuOpen && <nav className="mobile-nav"><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a><div className="mobile-theme-toggle"><ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} /></div></nav>}
 
       <section className="hero" id="top">
         <div className="hero-copy">
@@ -201,7 +197,7 @@ export default function Home() {
             <div className="accordion-list">{whyUsItems.map((item) => <AccordionRow key={item.question} {...item} isOpen={openWhy === item.question} onToggle={() => setOpenWhy(openWhy === item.question ? null : item.question)} />)}</div>
           </div>
         </div>
-        <div className="brands-marquee" aria-label="Brands we have worked with"><div className="brands-kicker">Brands we’ve worked with</div><div className="marquee-window"><div className="brands-track">{["NORTH / STANDARD", "FORM / FIELD", "COMMON THREAD", "STUDIO 07", "MORNING OBJECTS", "NORTH / STANDARD", "FORM / FIELD", "COMMON THREAD", "STUDIO 07", "MORNING OBJECTS"].map((brand, index) => <span key={`${brand}-${index}`}><i />{brand}</span>)}</div></div></div>
+          <div className="brands-marquee" aria-label="Brands we have worked with"><div className="brands-kicker">Brands we’ve worked with</div><div className="marquee-window"><div className="brands-row"><div className="brands-track brands-track-forward">{["NORTH / STANDARD", "FORM / FIELD", "COMMON THREAD", "STUDIO 07", "MORNING OBJECTS", "NORTH / STANDARD", "FORM / FIELD", "COMMON THREAD", "STUDIO 07", "MORNING OBJECTS"].map((brand, index) => <span key={`forward-${brand}-${index}`}><i />{brand}</span>)}</div><div className="brands-track brands-track-reverse">{["MORNING OBJECTS", "STUDIO 07", "COMMON THREAD", "FORM / FIELD", "NORTH / STANDARD", "MORNING OBJECTS", "STUDIO 07", "COMMON THREAD", "FORM / FIELD", "NORTH / STANDARD"].map((brand, index) => <span key={`reverse-${brand}-${index}`}><i />{brand}</span>)}</div></div></div></div>
       </section>
 
       <section className="faq-section" id="faq"><div className="section-wrap faq-inner"><div className="faq-intro"><SectionLabel index="04">FAQ</SectionLabel><h2>Before we<br /><em>get started.</em></h2><p>Still finding your way into the first conversation? These are a few of the practical things brands ask us most.</p><a href="#enquiry" className="quiet-link">Ask us something else <ArrowRight size={14} /></a></div><div className="accordion-list faq-list">{faqItems.map((item) => <AccordionRow key={item.question} {...item} isOpen={openFaq === item.question} onToggle={() => setOpenFaq(openFaq === item.question ? null : item.question)} />)}</div></div></section>

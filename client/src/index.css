@@ -99,11 +99,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .minus-icon { width: 11px; height: 1px; background: currentColor; }
 .accordion-answer { max-width: 510px; padding: 0 52px 24px 0; animation: answer-in 220ms var(--ease) both; }
 .accordion-answer p { margin: 0; color: rgba(29,29,27,.62); font-size: 13px; line-height: 1.65; }
-.brands-marquee { display: flex; align-items: center; min-height: 60px; border-top: 1px solid rgba(29,29,27,.18); border-bottom: 1px solid rgba(29,29,27,.18); background: rgba(251,250,247,.43); }
-.brands-kicker { flex: 0 0 auto; padding: 0 30px 0 5.5vw; color: var(--clay); font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
-.marquee-window { min-width: 0; overflow: hidden; border-left: 1px solid rgba(29,29,27,.18); }
-.brands-track { display: flex; width: max-content; align-items: center; animation: marquee 32s linear infinite; }
-.brands-track span { display: inline-flex; align-items: center; gap: 22px; padding: 0 25px; color: rgba(29,29,27,.68); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .08em; white-space: nowrap; }
+.brands-marquee { display: flex; align-items: stretch; min-height: 88px; border-top: 1px solid rgba(29,29,27,.18); border-bottom: 1px solid rgba(29,29,27,.18); background: rgba(251,250,247,.43); }
+.brands-kicker { display: flex; flex: 0 0 185px; align-items: center; padding: 0 30px 0 5.5vw; color: var(--clay); font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; line-height: 1.4; text-transform: uppercase; }
+.marquee-window { min-width: 0; flex: 1; overflow: hidden; border-left: 1px solid rgba(29,29,27,.18); }
+.brands-row { display: grid; gap: 0; padding: 9px 0; }
+.brands-track { display: flex; width: max-content; align-items: center; }
+.brands-track-forward { animation: marquee-forward 30s linear infinite; }
+.brands-track-reverse { animation: marquee-reverse 34s linear infinite; }
+.brands-track span { display: inline-flex; align-items: center; gap: 18px; padding: 8px 25px; color: rgba(29,29,27,.68); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .08em; white-space: nowrap; }
 .brands-track i { display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--clay); }
 .faq-section { background: #fbfaf7; }
 .faq-inner { display: grid; grid-template-columns: .8fr 1.2fr; gap: 9vw; padding-top: 145px; padding-bottom: 145px; }
@@ -111,7 +114,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .faq-intro .quiet-link { color: var(--clay); }
 .faq-list .accordion-trigger { font-size: 20px; }
 
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-forward { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes marquee-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
 @keyframes answer-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 900px) {
@@ -135,31 +139,60 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   .accordion-trigger { padding: 20px 0; font-size: 20px; }
   .accordion-answer { padding-right: 35px; }
   .brands-marquee { display: block; min-height: 0; }
-  .brands-kicker { padding: 14px 24px; border-bottom: 1px solid rgba(29,29,27,.18); }
+  .brands-kicker { min-height: 48px; padding: 14px 24px; border-bottom: 1px solid rgba(29,29,27,.18); }
   .marquee-window { border-left: 0; }
-  .brands-track span { padding-top: 18px; padding-bottom: 18px; }
+  .brands-row { padding: 5px 0; }
+  .brands-track span { padding-top: 12px; padding-bottom: 12px; }
   .faq-inner { padding-top: 90px; padding-bottom: 95px; }
   .faq-list { margin-top: 15px; }
 }
 
-
-/* Typography direction switcher */
-.font-selector { display: inline-flex; align-items: center; gap: 10px; margin-left: auto; margin-right: 20px; }
-.font-selector-label { display: inline-flex; align-items: center; gap: 5px; color: rgba(29,29,27,.48); font-family: "IBM Plex Mono", monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
-.font-selector-options { display: inline-flex; gap: 3px; padding: 3px; border: 1px solid rgba(29,29,27,.16); border-radius: 999px; background: rgba(255,255,255,.26); }
-.font-selector-options button { border: 0; border-radius: 999px; padding: 6px 9px; background: transparent; color: rgba(29,29,27,.56); cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .03em; text-transform: uppercase; transition: background 180ms ease, color 180ms ease, transform 180ms ease; }
-.font-selector-options button:hover { transform: translateY(-1px); color: var(--ink); }
-.font-selector-options button.active { background: var(--ink); color: var(--bone); }
-.font-poppins .hero h1, .font-poppins h2, .font-poppins h3, .font-poppins .footer-main > p, .font-poppins .form-success h3 { font-family: "Poppins", sans-serif; font-weight: 600; letter-spacing: -.075em; }
-.font-poppins .hero h1 { line-height: .94; }.font-poppins h2 { line-height: .98; }.font-poppins h3 { line-height: 1; }.font-poppins em { color: var(--clay); font-style: normal; font-weight: 400; }
-.font-anthropic .hero h1, .font-anthropic h2, .font-anthropic h3, .font-anthropic .footer-main > p, .font-anthropic .form-success h3 { font-family: "Instrument Sans", sans-serif; font-weight: 500; letter-spacing: -.085em; }
-.font-anthropic .hero h1 { line-height: .9; }.font-anthropic h2 { line-height: .92; }.font-anthropic h3 { line-height: .96; }.font-anthropic em { color: var(--clay); font-style: normal; font-weight: 500; }
-.font-poppins .brand-mark, .font-anthropic .brand-mark { font-family: "Fraunces", serif; }
 
 /* Guided enquiry brief */
 .enquiry-section .form-card { min-height: 528px; }
 .form-progress { padding-bottom: 20px; border-bottom: 1px solid var(--thread); }.progress-copy { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .09em; text-transform: uppercase; }.progress-copy span { color: var(--clay); }.progress-copy strong { color: rgba(29,29,27,.43); font-weight: 400; }.progress-track { height: 2px; background: #e8e0d5; }.progress-track span { display: block; height: 100%; background: var(--clay); transition: width 300ms var(--ease); }
 .form-intro { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 23px 0 27px; }.form-kicker { margin: 0 0 12px; color: rgba(29,29,27,.48); font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .09em; text-transform: uppercase; }.form-intro h3 { margin: 0; font-family: "Fraunces", serif; font-size: 31px; font-weight: 400; letter-spacing: -.06em; line-height: .88; }.form-intro h3 em { color: var(--clay); font-style: italic; }.form-step-icon { display: grid; place-items: center; width: 37px; height: 37px; border: 1px solid var(--thread); border-radius: 50%; color: var(--clay); }.form-helper { display: flex; align-items: center; gap: 8px; margin-top: -1px; padding: 10px 11px; background: #f3eee7; color: rgba(29,29,27,.57); font-size: 10px; line-height: 1.35; }.form-helper svg { flex: 0 0 auto; color: var(--clay); }
 .form-next { display: inline-flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 23px; padding: 13px 14px; border: 1px solid var(--ink); background: var(--ink); color: var(--bone); cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 9px; text-transform: uppercase; transition: background 180ms ease, transform 180ms ease; }.form-next:hover { transform: translateY(-2px); background: var(--clay); border-color: var(--clay); }.form-back { display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: transparent; color: rgba(29,29,27,.48); cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 9px; text-transform: uppercase; }.form-back svg { transform: rotate(180deg); }.form-back:hover { color: var(--clay); }.form-bottom { align-items: flex-end; }.form-bottom p { margin-right: auto; }.form-bottom .submit-button { flex: 0 0 auto; }.enquiry-form select:required:invalid { color: rgba(29,29,27,.38); }.enquiry-form select option { color: var(--ink); }
-@media (max-width: 1100px) { .font-selector { margin-right: 10px; }.font-selector-label { display: none; }.font-selector-options button { padding-left: 7px; padding-right: 7px; } }
-@media (max-width: 650px) { .font-selector { display: none; }.mobile-font-selector { display: block; padding: 14px 0 0; }.mobile-font-selector .font-selector { display: flex; margin: 0; justify-content: space-between; }.mobile-font-selector .font-selector-label { display: inline-flex; }.enquiry-section .form-card { min-height: 0; }.form-intro { padding-top: 20px; }.form-bottom { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 15px; }.form-bottom p { grid-column: 1 / -1; margin: 0; }.form-bottom .submit-button { grid-column: 1 / -1; width: 100%; justify-content: center; } }
+@media (max-width: 1100px) { .theme-toggle { margin-right: 10px; } }
+@media (max-width: 650px) { .theme-toggle { margin-right: 0; }.mobile-theme-toggle { display: block; padding: 14px 0 0; }.mobile-theme-toggle .theme-toggle { width: 100%; justify-content: center; margin: 0; }.enquiry-section .form-card { min-height: 0; }.form-intro { padding-top: 20px; }.form-bottom { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 15px; }.form-bottom p { grid-column: 1 / -1; margin: 0; }.form-bottom .submit-button { grid-column: 1 / -1; width: 100%; justify-content: center; } }
+
+
+/* Locked SMS Knits typography: Anthropic-inspired Instrument Sans */
+.anthropic-theme .hero h1,
+.anthropic-theme h2,
+.anthropic-theme h3,
+.anthropic-theme .footer-main > p,
+.anthropic-theme .form-success h3,
+.anthropic-theme .capability-copy h3,
+.anthropic-theme .process-item h3,
+.anthropic-theme .gallery-caption { font-family: "Instrument Sans", sans-serif; font-weight: 500; letter-spacing: -.075em; }
+.anthropic-theme .hero h1 { line-height: .9; }
+.anthropic-theme h2 { line-height: .92; }
+.anthropic-theme h3 { line-height: .96; }
+.anthropic-theme h1 em, .anthropic-theme h2 em, .anthropic-theme h3 em { color: var(--clay); font-style: normal; font-weight: 500; }
+
+.theme-toggle { display: inline-flex; align-items: center; gap: 7px; padding: 8px 10px; border: 1px solid rgba(29,29,27,.18); border-radius: 999px; background: rgba(255,255,255,.28); color: var(--ink); cursor: pointer; font-family: "IBM Plex Mono", monospace; font-size: 8px; letter-spacing: .06em; text-transform: uppercase; transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease; }
+.theme-toggle:hover { transform: translateY(-1px); background: var(--ink); color: var(--bone); border-color: var(--ink); }
+.theme-toggle-icon { display: inline-flex; }
+.mobile-theme-toggle { display: none; }
+
+/* Dark mode keeps the same warm, tactile palette with deeper studio tones. */
+.soft-site.dark-mode { --ink: #f5f1ea; --bone: #1c2420; --chalk: #25302a; --thread: rgba(245,241,234,.18); --clay: #d98a70; --moss: #8b9b88; background: var(--bone); color: var(--ink); }
+.dark-mode .site-nav { background: rgba(28,36,32,.86); border-color: rgba(245,241,234,.16); }
+.dark-mode .hero, .dark-mode .soft-site, .dark-mode .capability-card, .dark-mode .enquiry-section { background: var(--bone); color: var(--ink); }
+.dark-mode .hero-visual { background: #303a34; }
+.dark-mode .hero-lede, .dark-mode .intro-detail p, .dark-mode .motion-section-copy > p, .dark-mode .enquiry-intro > p, .dark-mode .capability-copy p, .dark-mode .section-heading-row > p { color: rgba(245,241,234,.66); }
+.dark-mode .desktop-nav, .dark-mode .section-label, .dark-mode .form-kicker, .dark-mode .proof-strip span, .dark-mode .proof-note, .dark-mode .form-progress, .dark-mode .form-helper, .dark-mode .enquiry-aside p { color: rgba(245,241,234,.58); }
+.dark-mode .nav-cta, .dark-mode .primary-button, .dark-mode .submit-button, .dark-mode .form-next { border-color: var(--ink); }
+.dark-mode .nav-cta:hover { background: var(--ink); color: var(--bone); }
+.dark-mode .capability-card { border-color: var(--thread); background: #25302a; }
+.dark-mode .capability-card:not(.capability-dark) .capability-number { color: rgba(245,241,234,.5); }
+.dark-mode .capability-dark { background: #111714; }
+.dark-mode .proof-strip, .dark-mode .accordion-row, .dark-mode .form-card, .dark-mode .enquiry-aside { border-color: var(--thread); }
+.dark-mode .proof-strip strong, .dark-mode .quiet-link, .dark-mode .text-button, .dark-mode .form-back { color: var(--ink); }
+.dark-mode .enquiry-section { background: #2a332d; }
+.dark-mode .form-helper { background: rgba(245,241,234,.08); }
+.dark-mode .enquiry-form input, .dark-mode .enquiry-form select, .dark-mode .enquiry-form textarea { border-color: var(--thread); background: rgba(245,241,234,.06); color: var(--ink); }
+.dark-mode .enquiry-form input::placeholder, .dark-mode .enquiry-form textarea::placeholder { color: rgba(245,241,234,.42); }
+.dark-mode .theme-toggle { border-color: rgba(245,241,234,.25); background: rgba(245,241,234,.08); color: var(--ink); }
+.dark-mode .theme-toggle:hover { background: var(--ink); color: var(--bone); }
