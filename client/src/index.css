@@ -104,8 +104,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .marquee-window { min-width: 0; width: 100%; overflow: hidden; border-top: 1px solid rgba(29,29,27,.12); }
 .brands-row { display: grid; gap: 0; padding: 9px 0; }
 .brands-track { display: flex; width: max-content; align-items: center; }
-.brands-track-forward { animation: marquee-forward 30s linear infinite; }
-.brands-track-reverse { animation: marquee-reverse 34s linear infinite; }
+.brands-track-forward { animation: marquee-reverse 30s linear infinite; }
+.brands-track-reverse { animation: marquee-forward 34s linear infinite; }
 .brands-track span { display: inline-flex; align-items: center; gap: 18px; padding: 8px 25px; color: rgba(29,29,27,.68); font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .08em; white-space: nowrap; }
 .brands-track i { display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--clay); }
 .faq-section { background: #fbfaf7; }
@@ -176,9 +176,17 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .theme-toggle-icon { display: inline-flex; }
 .mobile-theme-toggle { display: none; }
 .soft-site:not(.dark-mode) .site-nav { color: #1d1d1b; }
-.soft-site:not(.dark-mode) .faq-section { background: #fbfaf7; }
-.soft-site:not(.dark-mode) .enquiry-section { background: #e8dfd4; }
+.soft-site:not(.dark-mode) .about-section,
+.soft-site:not(.dark-mode) .faq-section,
+.soft-site:not(.dark-mode) .enquiry-section { background: #faf9f6; }
 .soft-site:not(.dark-mode) .capability-card:not(.capability-dark) { background: #fbfaf7; }
+.soft-site:not(.dark-mode) .process-section { background: #eee8df; color: #1d1d1b; }
+.soft-site:not(.dark-mode) .process-intro .section-label { color: rgba(29,29,27,.52); }
+.soft-site:not(.dark-mode) .process-intro > p,
+.soft-site:not(.dark-mode) .process-item p { color: rgba(29,29,27,.62); }
+.soft-site:not(.dark-mode) .process-item,
+.soft-site:not(.dark-mode) .process-item:first-child { border-color: rgba(29,29,27,.18); }
+.soft-site:not(.dark-mode) .process-item > svg { color: rgba(29,29,27,.55); }
 
 /* Dark mode keeps the same warm, tactile palette with deeper studio tones. */
 .soft-site.dark-mode { --ink: #f5f1ea; --bone: #1c2420; --chalk: #25302a; --thread: rgba(245,241,234,.18); --clay: #d98a70; --moss: #8b9b88; background: var(--bone); color: var(--ink); }
