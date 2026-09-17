@@ -1,250 +1,127 @@
-import { useState } from "react";
-import { ArrowUpRight, Check, ChevronRight, Circle, Heart, Menu, MoveRight, Play, Plus, Sparkles } from "lucide-react";
+import { FormEvent, useState } from "react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, ChevronDown, Circle, Instagram, Linkedin, Menu, MessageCircle, MoveRight, Play, Plus, Send, Sparkles } from "lucide-react";
 
-type ThemeId = "soft" | "factory" | "atelier";
+const softImage = "/manus-storage/smsknits-soft-structure_0db83cdc.jpg";
+const atelierImage = "/manus-storage/smsknits-atelier-motion_20f8fc25.jpg";
 
-type Theme = {
-  id: ThemeId;
-  number: string;
-  name: string;
-  shortName: string;
-  description: string;
-  vibe: string;
-  colors: string[];
-  image: string;
-  code: string;
-  heroTitle: string;
-  heroCopy: string;
-  kicker: string;
-  button: string;
-};
+function Mark() {
+  return <span className="brand-mark" aria-hidden="true">S</span>;
+}
 
-const themes: Theme[] = [
-  {
-    id: "soft",
-    number: "01",
-    name: "Soft Structure",
-    shortName: "Warm editorial",
-    description: "Quietly premium, tactile and considered.",
-    vibe: "Human / precise / calm",
-    colors: ["#1D1D1B", "#F5F1EA", "#C9795E", "#697568"],
-    image: "/manus-storage/smsknits-soft-structure_0db83cdc.jpg",
-    code: "SMK / 01",
-    heroTitle: "Made to hold its shape.",
-    heroCopy: "Knitwear manufacturing for brands that care about the details.",
-    kicker: "The material story",
-    button: "View capabilities",
-  },
-  {
-    id: "factory",
-    number: "02",
-    name: "Factory Signal",
-    shortName: "Technical confidence",
-    description: "Operational clarity with a sharp, modern edge.",
-    vibe: "System / signal / proof",
-    colors: ["#111312", "#EDE9E0", "#C8E66B", "#8FB8D9"],
-    image: "/manus-storage/smsknits-factory-signal_8a790454.jpg",
-    code: "SMK / 02",
-    heroTitle: "Engineered for consistency.",
-    heroCopy: "From yarn selection to final inspection, we make the process visible.",
-    kicker: "The production signal",
-    button: "Explore the system",
-  },
-  {
-    id: "atelier",
-    number: "03",
-    name: "Atelier in Motion",
-    shortName: "Fashion-led",
-    description: "Cinematic, expressive and built for a strong first impression.",
-    vibe: "Studio / movement / form",
-    colors: ["#0D0D0C", "#F7F6F2", "#E45038", "#2E4EA1"],
-    image: "/manus-storage/smsknits-atelier-motion_20f8fc25.jpg",
-    code: "SMK / 03",
-    heroTitle: "The knit is the beginning.",
-    heroCopy: "We turn yarn, structure and intent into garments built for everyday life.",
-    kicker: "The studio point of view",
-    button: "Enter the atelier",
-  },
-];
-
-function Swatches({ colors }: { colors: string[] }) {
+function MotionFrame({ variant = "fabric", label = "MOTION STUDY / 01" }: { variant?: "fabric" | "machine" | "atelier"; label?: string }) {
   return (
-    <div className="swatches" aria-label="Theme color swatches">
-      {colors.map((color) => (
-        <span key={color} className="swatch" style={{ backgroundColor: color }} title={color} />
-      ))}
+    <div className={`motion-frame motion-${variant}`}>
+      <div className="motion-grain" />
+      <div className="motion-lines" />
+      {variant === "fabric" && <><span className="thread thread-a" /><span className="thread thread-b" /><span className="thread thread-c" /></>}
+      {variant === "machine" && <><span className="machine-needle" /><span className="machine-track" /><span className="machine-dot dot-a" /><span className="machine-dot dot-b" /></>}
+      {variant === "atelier" && <><span className="atelier-fold fold-a" /><span className="atelier-fold fold-b" /><span className="atelier-fold fold-c" /></>}
+      <div className="motion-caption"><span>{label}</span><span className="motion-caption-dot" /></div>
+      <div className="motion-play"><Play size={13} fill="currentColor" /></div>
     </div>
   );
 }
 
-function MiniLogo({ theme }: { theme: Theme }) {
-  return (
-    <span className="mini-logo" aria-label="SMS Knits">
-      <span className="mini-logo-mark">S</span>
-      <span className="mini-logo-text">sms<span>knits</span></span>
-    </span>
-  );
+function SectionLabel({ children, index }: { children: string; index: string }) {
+  return <p className="section-label"><span>{index}</span>{children}</p>;
 }
 
-function CapabilityArt({ theme }: { theme: Theme }) {
-  if (theme.id === "factory") {
-    return (
-      <div className="capability-art signal-art" aria-hidden="true">
-        <span className="scan-line" />
-        <span className="signal-dot signal-dot-one" />
-        <span className="signal-dot signal-dot-two" />
-        <span className="signal-dot signal-dot-three" />
-        <div className="signal-grid" />
-        <span className="signal-readout">KNIT / 04—08—25</span>
-      </div>
-    );
-  }
+function EnquiryForm() {
+  const [sent, setSent] = useState(false);
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSent(true);
+  };
 
-  if (theme.id === "atelier") {
+  if (sent) {
     return (
-      <div className="capability-art atelier-art" aria-hidden="true">
-        <span className="atelier-ribbon atelier-ribbon-one" />
-        <span className="atelier-ribbon atelier-ribbon-two" />
-        <span className="atelier-ribbon atelier-ribbon-three" />
-        <span className="atelier-stamp">FORM<br />/ 001</span>
+      <div className="form-success">
+        <span className="success-icon"><Check size={21} /></span>
+        <p className="section-label"><span>DONE</span>ENQUIRY RECEIVED</p>
+        <h3>We’ll be in touch<br /><em>shortly.</em></h3>
+        <p>Thanks for sharing the first details of your project. Our team will review the brief and come back with the right next step.</p>
+        <button type="button" className="text-button" onClick={() => setSent(false)}>Send another enquiry <ArrowRight size={14} /></button>
       </div>
     );
   }
 
   return (
-    <div className="capability-art soft-art" aria-hidden="true">
-      <span className="soft-thread soft-thread-one" />
-      <span className="soft-thread soft-thread-two" />
-      <span className="soft-thread soft-thread-three" />
-      <span className="soft-tag">100%<br />cotton</span>
-    </div>
-  );
-}
-
-function ThemePanel({ theme, selected, onSelect }: { theme: Theme; selected: boolean; onSelect: () => void }) {
-  return (
-    <article className={`theme-card theme-${theme.id} ${selected ? "is-selected" : ""}`}>
-      <div className="theme-card-header">
-        <div className="theme-card-title">
-          <span className="theme-number">{theme.number}</span>
-          <div>
-            <p className="theme-card-eyebrow">{theme.shortName}</p>
-            <h2>{theme.name}</h2>
-          </div>
-        </div>
-        <button className="select-theme-button" type="button" onClick={onSelect} aria-pressed={selected} aria-label={`Choose ${theme.name}`}>
-          {selected ? <Check size={15} strokeWidth={2.5} /> : <Heart size={15} />}
-        </button>
+    <form className="enquiry-form" onSubmit={submit}>
+      <div className="form-row two-up">
+        <label>Full name<input required name="name" placeholder="Your name" /></label>
+        <label>Work email<input required type="email" name="email" placeholder="you@brand.com" /></label>
       </div>
-
-      <p className="theme-card-description">{theme.description}</p>
-      <div className="theme-card-meta">
-        <span>{theme.vibe}</span>
-        <Swatches colors={theme.colors} />
+      <div className="form-row two-up">
+        <label>Company / brand<input required name="company" placeholder="Brand or company name" /></label>
+        <label>Country / market<input name="market" placeholder="Where are you based?" /></label>
       </div>
-
-      <div className="mini-site" aria-label={`${theme.name} website preview`}>
-        <div className="mini-site-nav">
-          <MiniLogo theme={theme} />
-          <div className="mini-site-links">
-            <span>Studio</span><span>Capabilities</span><span>Journal</span>
-          </div>
-          <button className="mini-menu" type="button" aria-label="Open menu"><Menu size={13} /></button>
-        </div>
-
-        <div className="mini-hero" style={{ backgroundImage: `url(${theme.image})` }}>
-          <div className="mini-hero-shade" />
-          <div className="mini-hero-topline">
-            <span>{theme.code}</span>
-            <span className="mini-status"><Circle size={6} fill="currentColor" /> LIVE PREVIEW</span>
-          </div>
-          <div className="mini-hero-copy">
-            <p className="mini-kicker">{theme.kicker}</p>
-            <h3>{theme.heroTitle}</h3>
-            <p>{theme.heroCopy}</p>
-            <button className="mini-cta" type="button">{theme.button} <ArrowUpRight size={13} /></button>
-          </div>
-          <div className="mini-play"><Play size={11} fill="currentColor" /></div>
-          <span className="mini-scroll">SCROLL TO EXPLORE <MoveRight size={12} /></span>
-        </div>
-
-        <div className="mini-site-body">
-          <div className="mini-section-heading">
-            <p className="mini-label">01 / CAPABILITIES</p>
-            <h4>Built around the<br /><em>right details.</em></h4>
-          </div>
-          <div className="mini-capability-grid">
-            <CapabilityArt theme={theme} />
-            <div className="mini-capability-copy">
-              <span className="mini-label">YARN → GARMENT</span>
-              <p>Development, sampling and production — in one considered flow.</p>
-              <span className="mini-link">See how we work <ChevronRight size={12} /></span>
-            </div>
-          </div>
-          <div className="mini-metrics">
-            <div><strong>16</strong><span>years of craft</span></div>
-            <div><strong>24</strong><span>active machines</span></div>
-            <div><strong>03</strong><span>steps to sample</span></div>
-          </div>
-          <div className="mini-enquiry">
-            <div><p className="mini-label">START A CONVERSATION</p><strong>Have a project in mind?</strong></div>
-            <button type="button" aria-label="Start an enquiry"><Plus size={15} /></button>
-          </div>
-        </div>
+      <div className="form-row two-up">
+        <label>Project type<select required name="project"><option value="">Select one</option><option>Full garment production</option><option>Development & sampling</option><option>Knitting production</option><option>Finishing & quality</option></select><ChevronDown size={15} /></label>
+        <label>Estimated quantity<select name="quantity"><option value="">Select range</option><option>Under 100 units</option><option>100–500 units</option><option>500–2,000 units</option><option>2,000+ units</option></select><ChevronDown size={15} /></label>
       </div>
-
-      <button className="choose-direction" type="button" onClick={onSelect}>
-        <span>{selected ? "Current favourite" : "Choose this direction"}</span>
-        <ArrowUpRight size={16} />
-      </button>
-    </article>
+      <div className="form-row two-up">
+        <label>Target delivery<select name="timeline"><option value="">Select timing</option><option>As soon as possible</option><option>Within 8 weeks</option><option>Within 3 months</option><option>Exploring / no date yet</option></select><ChevronDown size={15} /></label>
+        <label>Preferred material<input name="material" placeholder="e.g. organic cotton, wool blend" /></label>
+      </div>
+      <label>Tell us about the project<textarea required name="message" rows={4} placeholder="What are you making, and where are you in the process?" /></label>
+      <div className="form-bottom"><p>By enquiring, you’re opening a conversation — not committing to production.</p><button className="submit-button" type="submit">Send enquiry <Send size={14} /></button></div>
+    </form>
   );
 }
 
 export default function Home() {
-  const [selected, setSelected] = useState<ThemeId>("soft");
-  const currentTheme = themes.find((theme) => theme.id === selected) ?? themes[0];
-
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
-    <main className="theme-lab">
-      <header className="lab-header">
-        <div className="lab-brand"><span className="lab-brand-mark">S</span> SMS KNITS <span className="lab-brand-divider" /> VISUAL LAB</div>
-        <div className="lab-header-right"><span>THEME TEST / 01</span><span className="live-dot" /> <span>2026</span></div>
+    <main className="soft-site">
+      <header className={`site-nav ${menuOpen ? "nav-open" : ""}`}>
+        <a className="site-brand" href="#top"><Mark /><span>sms<span>knits</span></span></a>
+        <button className="mobile-menu" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu"><Menu size={19} /></button>
+        <nav className="desktop-nav" aria-label="Main navigation"><a href="#studio">Studio</a><a href="#capabilities">Capabilities</a><a href="#process">Process</a><a href="#enquiry">Enquire</a></nav>
+        <a className="nav-cta" href="#enquiry">Start a project <ArrowUpRight size={14} /></a>
       </header>
+      {menuOpen && <nav className="mobile-nav"><a href="#studio" onClick={() => setMenuOpen(false)}>Studio</a><a href="#capabilities" onClick={() => setMenuOpen(false)}>Capabilities</a><a href="#process" onClick={() => setMenuOpen(false)}>Process</a><a href="#enquiry" onClick={() => setMenuOpen(false)}>Enquire</a></nav>}
 
-      <section className="lab-intro">
-        <div className="intro-copy">
-          <p className="eyebrow"><Sparkles size={13} /> Brand direction study</p>
-          <h1>Three ways to make<br /><em>the knit</em> the signal.</h1>
-          <p className="intro-description">A side-by-side visual test for SMS Knits. Same story, three distinct personalities — built to help us choose the right foundation before we curate the full content library.</p>
+      <section className="hero" id="top">
+        <div className="hero-copy">
+          <p className="eyebrow"><Sparkles size={13} /> Knitwear manufacturing / India</p>
+          <h1>Made to<br /><em>hold its shape.</em></h1>
+          <p className="hero-lede">We help thoughtful brands turn yarn, structure and intent into garments built for everyday life.</p>
+          <div className="hero-actions"><a className="primary-button" href="#capabilities">Explore capabilities <ArrowDown size={14} /></a><a className="quiet-link" href="#studio">Why SMS Knits <ArrowRight size={14} /></a></div>
         </div>
-        <div className="intro-note">
-          <span className="note-index">01</span>
-          <p>Compare the palette, typography, edge language and motion character of each direction below.</p>
-          <span className="note-arrow"><MoveRight size={18} /></span>
+        <div className="hero-visual">
+          <div className="hero-image" style={{ backgroundImage: `url(${softImage})` }} />
+          <div className="hero-image-tint" />
+          <MotionFrame label="TEXTURE / MOTION STUDY 01" />
+          <div className="hero-vertical-label">YARN / STRUCTURE / INTENT</div>
+        </div>
+        <div className="hero-bottom"><span>Scroll to explore</span><span className="scroll-line" /><span>01—06</span></div>
+      </section>
+
+      <section className="proof-strip"><div><strong>16</strong><span>years of craft</span></div><div><strong>24</strong><span>active machines</span></div><div><strong>03</strong><span>steps to sample</span></div><div className="proof-note"><span className="proof-dot" /> Built for brands who notice the difference.</div></section>
+
+      <section className="intro-section section-wrap" id="studio">
+        <div className="intro-statement"><SectionLabel index="01">The studio</SectionLabel><h2>Good garments begin<br />with a <em>good conversation.</em></h2></div>
+        <div className="intro-detail"><p>SMS Knits is a garment manufacturing partner for brands who care about the things you can feel: the hand of the fabric, the balance of a seam, the way a piece holds its shape after the tenth wear.</p><a className="text-button" href="#process">Our way of working <ArrowRight size={14} /></a></div>
+      </section>
+
+      <section className="capabilities-section section-wrap" id="capabilities">
+        <div className="section-heading-row"><div><SectionLabel index="02">Capabilities</SectionLabel><h2>From first swatch<br />to <em>final stitch.</em></h2></div><p>One considered flow, with the right people involved at every stage.</p></div>
+        <div className="capabilities-grid">
+          <article className="capability-card capability-large"><div className="capability-number">01</div><MotionFrame variant="machine" label="PROCESS / MOTION STUDY 02" /><div className="capability-copy"><h3>Development<br /><em>& sampling</em></h3><p>Translate an idea into a sample that gives your team something real to react to.</p><a href="#enquiry">Start with a brief <ArrowUpRight size={14} /></a></div></article>
+          <article className="capability-card"><div className="capability-number">02</div><div className="capability-photo" style={{ backgroundImage: `url(${atelierImage})` }}><div className="photo-label">YARN / 04—08—25</div></div><div className="capability-copy"><h3>Knitting<br /><em>& production</em></h3><p>Consistent output, from yarn selection through the production run.</p><a href="#enquiry">Talk production <ArrowUpRight size={14} /></a></div></article>
+          <article className="capability-card capability-dark"><div className="capability-number">03</div><div className="quality-art"><span className="quality-ring ring-one" /><span className="quality-ring ring-two" /><span className="quality-cross" /><span className="quality-label">QC / 100%</span></div><div className="capability-copy"><h3>Quality<br /><em>as standard</em></h3><p>Clear checkpoints and a final inspection that protects the work.</p><a href="#enquiry">Ask about quality <ArrowUpRight size={14} /></a></div></article>
         </div>
       </section>
 
-      <section className="comparison-intro">
-        <div><p className="section-overline">SELECT A DIRECTION</p><h2>The same homepage,<br /><em>three different signals.</em></h2></div>
-        <div className="comparison-view-note"><span className="compare-line" /> <span>Desktop comparison view<br /><small>Scroll horizontally on smaller screens</small></span></div>
-      </section>
+      <section className="process-section" id="process"><div className="section-wrap process-inner"><div className="process-intro"><SectionLabel index="03">The process</SectionLabel><h2>Simple in theory.<br /><em>Considered in practice.</em></h2><p>We keep the handoffs clear so the work can stay focused on what matters.</p></div><div className="process-list"><div className="process-item"><span>01</span><div><h3>Tell us the idea</h3><p>Share your references, material direction, target and constraints.</p></div><ArrowRight size={16} /></div><div className="process-item"><span>02</span><div><h3>Make it tangible</h3><p>We work through yarn, gauge, shape and first-sample decisions.</p></div><ArrowRight size={16} /></div><div className="process-item"><span>03</span><div><h3>Build the run</h3><p>Once the details are right, production moves with visibility.</p></div><ArrowRight size={16} /></div></div></div></section>
 
-      <section className="theme-grid" aria-label="Theme comparisons">
-        {themes.map((theme) => <ThemePanel key={theme.id} theme={theme} selected={selected === theme.id} onSelect={() => setSelected(theme.id)} />)}
-      </section>
+      <section className="motion-section section-wrap"><div className="motion-section-copy"><SectionLabel index="04">Material in motion</SectionLabel><h2>Let the details<br /><em>move you.</em></h2><p>The future site can use short, silent loops to show the texture and rhythm behind the finished garment.</p><a href="#enquiry" className="quiet-link">Plan a content shoot <ArrowRight size={14} /></a></div><div className="motion-gallery"><div className="gallery-main" style={{ backgroundImage: `url(${softImage})` }}><div className="gallery-overlay" /><div className="gallery-caption">A close-up is worth a thousand adjectives.</div></div><MotionFrame variant="atelier" label="FORM / MOTION STUDY 03" /></div></section>
 
-      <section className="decision-bar">
-        <div className="decision-badge"><span className="decision-pulse" /> CURRENT FAVOURITE</div>
-        <div className="decision-copy"><span>Based on your selection</span><strong>{currentTheme.name}</strong></div>
-        <p>{currentTheme.description} Use the controls above to compare another direction.</p>
-        <button type="button" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top <ArrowUpRight size={15} /></button>
-      </section>
+      <section className="enquiry-section" id="enquiry"><div className="section-wrap enquiry-inner"><div className="enquiry-intro"><SectionLabel index="05">Start a project</SectionLabel><h2>Bring us the<br /><em>first thread.</em></h2><p>Tell us enough to start a useful conversation. We’ll take it from there.</p><div className="enquiry-aside"><span className="aside-line" /><div><strong>Prefer WhatsApp?</strong><p>Send a quick note and our team can point you in the right direction.</p><a href="https://wa.me/?text=Hello%20SMS%20Knits%2C%20I%27d%20like%20to%20discuss%20a%20garment%20project." target="_blank" rel="noreferrer">Open WhatsApp <ArrowUpRight size={13} /></a></div></div></div><div className="form-card"><EnquiryForm /></div></div></section>
 
-      <footer className="lab-footer">
-        <span>SMS KNITS / BRAND SYSTEM EXPLORATION</span>
-        <span>Made for a sharper first impression.</span>
-      </footer>
+      <footer className="site-footer"><div className="footer-main"><a className="site-brand footer-brand" href="#top"><Mark /><span>sms<span>knits</span></span></a><p>Garment manufacturing<br />for thoughtful brands.</p><a href="#enquiry" className="footer-cta">Start a conversation <ArrowUpRight size={14} /></a></div><div className="footer-bottom"><span>© 2026 SMS Knits. All rights reserved.</span><span className="footer-socials"><a href="#top" aria-label="Instagram"><Instagram size={14} /></a><a href="#top" aria-label="LinkedIn"><Linkedin size={14} /></a><a href="#top" aria-label="Back to top"><ArrowUpRight size={14} /></a></span></div></footer>
+
+      <a className="whatsapp-bubble" href="https://wa.me/?text=Hello%20SMS%20Knits%2C%20I%27d%20like%20to%20discuss%20a%20garment%20project." target="_blank" rel="noreferrer" aria-label="Chat with SMS Knits on WhatsApp"><MessageCircle size={21} /><span>Chat with us</span></a>
     </main>
   );
 }
